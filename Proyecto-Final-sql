@@ -1,0 +1,84 @@
+-- Creation of Database and tables 
+
+IF DATABASE e_commerce IS NULL
+CREATE DATABASE e_commerce
+
+GO
+
+CREATE TABLE Clientes(
+Usuario	VarChar(21),
+Nombre	VarChar(21),
+Apellido	VarChar(21),
+Direccion	VarChar(50),
+Telefono	SmallInt,
+Edad	TinyInt,
+Tarjeta 1	ShortInt,
+Tarjeta 2	ShortInt,
+Tarjeta 3	ShortInt,
+RFC	VarChar (20)	RFC,
+
+PRIMARY KEY (Usuario)
+);
+
+CREATE TABLE Pedidos(
+ID_Pedido	VarChar(30) AUTO_INCREMENT,
+Usuario	VarChar(21),
+Monto	Money,
+Fecha	DateTime,
+Direccion	VarChar(50),
+Nombre_Articulo	VarChar(21),
+Cantidad	TinyInt,
+
+PRIMARY KEY (ID_Pedido),
+FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario)
+);
+
+CREATE TABLE Productos(
+SKU	VarChar(30),
+Nombre_Articulo	VarChar(21),
+Precio	Money,
+Talla	TinyInt,
+Genero	VarChar(10),
+Color	VarChar(10),
+Tipo	VarChar(15),
+Disponibilidad	TinyInt,
+Almacen	VarChar(10),
+
+PRIMARY KEY (SKU),
+FOREIGN KEY (Nombre_Articulo) REFERENCES Almacen(Nombre_Articulo)
+);
+
+CREATE TABLE Almacen(
+ID_Almacen	VarChar(10),
+Direccion	VarChar(50),
+Telefono	SmallInt,
+Zona_distribucion	VarChat(10),
+Disponibilidad	TinyInt,
+Capacidad	SmallInt,
+SKU	Varchar(30),
+Nombre_Articulo	VarChar(21),
+
+PRIMARY KEY (ID_Almacen),
+FOREIGN KEY (SKU) REFERENCES Productos(SKU),
+FOREIGN KEY (Nombre_Articulo) REFERENCES Productos (Nombre_Articulo)
+);
+
+CREATE TABLE Proveedores(
+ID_Proveedor	VarChar(30),
+RFC	VarChar(20),
+SKU	VarChar(30),
+Nombre_Articulo	VarChar(21),
+Costo	Money,
+Talla	VarChar(10),
+Genero	VarChar(10),
+Color	VarChar(10),
+Tipo	VarChar(15),
+Disponibilidad	TinyInt,
+Almacen	VarChat(10),
+
+PRIMARY KEY (ID_Proveedor),
+FOREIGN KEY (SKU) REFERENCES Productos(SKU),
+FOREIGN KEY (Nombre_Articulo) REFERENCES Productos(Nombre_Articulo),
+FOREIGN KEY (Almacen) REFERENCES Almacen(ID_Almacen)
+);
+
