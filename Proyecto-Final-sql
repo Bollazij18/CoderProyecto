@@ -1,4 +1,4 @@
--- Creation of Database and tables 
+-- Creation of Database and tables (More tables to come next) --
 
 IF DATABASE e_commerce IS NULL
 CREATE DATABASE e_commerce
@@ -6,79 +6,144 @@ CREATE DATABASE e_commerce
 GO
 
 CREATE TABLE Clientes(
-Usuario	VarChar(21),
-Nombre	VarChar(21),
-Apellido	VarChar(21),
-Direccion	VarChar(50),
-Telefono	SmallInt,
-Edad	TinyInt,
-Tarjeta 1	ShortInt,
+Usuario	VarChar(21) NOT NULL,
+Nombre	VarChar(21) NOT NULL,
+Apellido	VarChar(21) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Edad	TinyInt NOT NULL,
+Tarjeta 1	ShortInt NOT NULL,
 Tarjeta 2	ShortInt,
 Tarjeta 3	ShortInt,
-RFC	VarChar (20)	RFC,
+RFC	VarChar (20),
 
 PRIMARY KEY (Usuario)
 );
 
 CREATE TABLE Pedidos(
 ID_Pedido	VarChar(30) AUTO_INCREMENT,
-Usuario	VarChar(21),
-Monto	Money,
-Fecha	DateTime,
-Direccion	VarChar(50),
-Nombre_Articulo	VarChar(21),
-Cantidad	TinyInt,
+Usuario	VarChar(21) NOT NULL,
+Monto	Money NOT NULL,
+Fecha	DateTime NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Nombre_Articulo	VarChar(21) NOT NULL,
+Cantidad	TinyInt NOT NULL,
 
 PRIMARY KEY (ID_Pedido),
 FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario)
 );
 
 CREATE TABLE Productos(
-SKU	VarChar(30),
-Nombre_Articulo	VarChar(21),
-Precio	Money,
+SKU	VarChar(30) NOT NULL,
+Nombre_Articulo	VarChar(21) NOT NULL,
+Precio	Money NOT NULL,
 Talla	TinyInt,
-Genero	VarChar(10),
-Color	VarChar(10),
-Tipo	VarChar(15),
-Disponibilidad	TinyInt,
-Almacen	VarChar(10),
+Genero	VarChar(10) NOT NULL,
+Color	VarChar(10) NOT NULL,
+Tipo	VarChar(15) NOT NULL,
+Disponibilidad	TinyInt NOT NULL,
+Almacen	VarChar(10) NOT NULL,
 
 PRIMARY KEY (SKU),
 FOREIGN KEY (Nombre_Articulo) REFERENCES Almacen(Nombre_Articulo)
 );
 
 CREATE TABLE Almacen(
-ID_Almacen	VarChar(10),
-Direccion	VarChar(50),
-Telefono	SmallInt,
-Zona_distribucion	VarChat(10),
-Disponibilidad	TinyInt,
-Capacidad	SmallInt,
-SKU	Varchar(30),
-Nombre_Articulo	VarChar(21),
+ID_Almacen	VarChar(10) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Zona_distribucion	VarChat(10) NOT NULL,
+Disponibilidad	TinyInt NOT NULL,
+Capacidad	SmallInt NOT NULL,
 
-PRIMARY KEY (ID_Almacen),
-FOREIGN KEY (SKU) REFERENCES Productos(SKU),
-FOREIGN KEY (Nombre_Articulo) REFERENCES Productos (Nombre_Articulo)
+PRIMARY KEY (ID_Almacen)
 );
 
 CREATE TABLE Proveedores(
-ID_Proveedor	VarChar(30),
-RFC	VarChar(20),
-SKU	VarChar(30),
-Nombre_Articulo	VarChar(21),
-Costo	Money,
-Talla	VarChar(10),
-Genero	VarChar(10),
-Color	VarChar(10),
-Tipo	VarChar(15),
-Disponibilidad	TinyInt,
-Almacen	VarChat(10),
+ID_Proveedor	VarChar(30) NOT NULL,
+RFC	VarChar(20) NOT NULL,
+Direccion Varchar(60),
+Contacto VarChar(30),
+Tipo	VarChat(15) NOT NULL,
 
 PRIMARY KEY (ID_Proveedor),
-FOREIGN KEY (SKU) REFERENCES Productos(SKU),
-FOREIGN KEY (Nombre_Articulo) REFERENCES Productos(Nombre_Articulo),
-FOREIGN KEY (Almacen) REFERENCES Almacen(ID_Almacen)
 );
 
+-- Insertion of data (More tables and data to come next)-- 
+
+INSERT INTO 
+Clientes(Usuario, Nombre, Apellido, Direccion, Telefono, Edad, Tarjeta 1, Tarjeta 2, Tarjeta 3, RFC)
+VALUES
+('JP29','Juan','Perez','12 Calle Lago, Interlomas, CDMX 77292','123-654-2345','25','1234567891234567', NULL, NULL,'JUPEZ1234H'),
+('JJSuarez','Jose','Suarez','254 Calle Espino, Chapultepec, CDMX 53624','123-874-2843','45','1234567891234567', '1234567891234567', NULL,'JOSUZ5432Y'),
+('MP002','Maria','Perez','222 Calle Juarez, Saltillo 12310','223-657-8954','18','1234567891234567', NULL, NULL,'MAPEZ64738J'),
+('JMorales','Jorge','Morales','654 calle 42, Merida, Yucatan 11590','774-965-3884','36','1234567891234567', NULL, NULL,'JOMOL5896HG'),
+('SofOrt','Sofia','Ortiz','172 calle Lago, Queretaro,Queretaro 61632','363-163-7921','43','1234567891234567', 1234567891234567, NULL,'SOORZ6839S'),
+('RegJACK','Regina','Jackson','221 calle Durango, La Condesa, CDMX 19829','123-759-9821','67','1234567891234567', NULL, NULL,'REJN8579Q'),
+('AlMol','Alexis','Molina','94 calle Londres, Chihuahua, CDMX 12256','123-167-8532',29','1234567891234567', 1234567891234567, 1234567891234567,'ALMO85943FS'),
+('AlfCampos','Alfredo','Campos','64 calle Artemisa, Puebla,Puebla 83201','166-748-3421','34','1234567891234567', NULL, NULL,'ALCA8492NB'),
+
+
+INSERT INTO 
+Pedidos(Usuario, Monto, Fecha, Direccion, Nombre_Articulo, Talla, Cantidad)
+VALUES
+('JP29','2500.00','12 Calle Lago, Interlomas, CDMX 77292','20/08/2022','Camisa_Hombre','M','2'),
+('JP29','5000.00','12 Calle Lago, Interlomas, CDMX 77292','1/12/2021','Camisa_Hombre','M','4'),
+('SofOrt','1900.00','172 calle Lago, Queretaro,Queretaro 61632','4/05/2022','Blusa_Mujer','S','2'),
+('SofOrt','799.00','172 calle Lago, Queretaro,Queretaro 61632','18/02/2022','Pantalon_Mujer','S','1'),
+('AlfCampos','1900.00','64 calle Artemisa, Puebla,Puebla 83201','18/02/2022','Pantalon_Hombre','M','2'),
+('MP002','7200.00','222 Calle Juarez, Saltillo 12310','15/08/2021','Pulcera_Mujer',NULL,'10'),
+('SofOrt','3800.00','172 calle Lago, Queretaro,Queretaro 61632','6/10/2022','Blusa_Mujer','M','4'),
+('MP002','1598.00','222 Calle Juarez, Saltillo 12310','04/10/2022','Pantalon_Mujer','S','2'),
+('JJSuarez','1600.00','254 Calle Espino, Chapultepec, CDMX 53624','18/02/2020','Playera_Hombre','L','4'),
+('JJSuarez','350.00','254 Calle Espino, Chapultepec, CDMX 53624','18/02/2020','Cartera_Hombre',NULL,'1');
+
+INSERT INTO 
+Productos(SKU, Nombre_Articulo, Precio, Talla	, Genero, Color, Tipo, Disponibilidad, Almacen)
+VALUES
+('2022CAHOBS200','Camisa_Hombre','1250.00','S','H','BLANCA','TOP','200','A01'),
+('2022CAHOBM200','Camisa_Hombre','1250.00','M','H','BLANCA','TOP','200','A01'),
+('2022CAHOBL200','Camisa_Hombre','1250.00','L','H','BLANCA','TOP','200','A01'),
+('2022PLHOBS500','Playera_Hombre','400.00','S','H','BLANCA','TOP','500','A01'),
+('2022PLHOBM500','Playera_Hombre','400.00','M','H','BLANCA','TOP','500','A01'),
+('2022PLHOBL500','Playera_Hombre','400.00','L','H','BLANCA','TOP','500','A01'),
+('2022CAHOAZS200','Camisa_Hombre','1250.00','S','H','AZUL','TOP','200','A01'),
+('2022CAHOAZM200','Camisa_Hombre','1250.00','M','H','AZUL','TOP','200','A01'),
+('2022CAHOAZL200','Camisa_Hombre','1250.00','L','H','AZUL','TOP','200','A01'),
+('2022PLHOAZS500','Playera_Hombre','400.00','S','H','AZUL','TOP','500','A01'),
+('2022PLHOAZM500','Playera_Hombre','400.00','M','H','AZUL','TOP','500','A01'),
+('2022PLHOAZL500','Playera_Hombre','400.00','L','H','AZUL','TOP','500','A01'),
+('2022BLMUBS500','Blusa_Mujer','950.00','S','H','BLANCA','TOP','500','A01'),
+('2022BLMUBM500','Blusa_Mujer','950.00','M','H','BLANCA','TOP','500','A01'),
+('2022BLMUBL500','Blusa_Mujer','950.00','L','H','BLANCA','TOP','500','A01'),
+('2022PAMUNS300','Pantalon_Mujer','799.00','S','M','NEGRO','BOT','300','A02'),
+('2022PAMUNM300','Pantalon_Mujer','799.00','M','M','NEGRO','BOT','300','A02'),
+('2022PAMUNL300','Pantalon_Mujer','799.00','L','M','NEGRO','BOT','300','A02'),
+('2022PAHONS300','Pantalon_Hombre','799.00','S','H','NEGRO','BOT','300','A02'),
+('2022PAHONM300','Pantalon_Hombre','799.00','M','H','NEGRO','BOT','300','A02'),
+('2022PAHONL300','Pantalon_Hombre','799.00','L','H','NEGRO','BOT','300','A02'),
+('2022CIHOS250','Cinturon_Mujer','350.00','S','M','NEGRO','ACC','250','A02'),
+('2022CIHOS250','Cinturon Hombre','400.00','S','H','NEGRO','ACC','250','A02'),
+('2022CAMUACC500','Cartera_Mujer','350.00',NULL,'M','NEGRO','ACC','500','A02'),
+('2022CAHOACC500','Cartera_Hombre','350.00',NULL,'H','NEGRO','ACC','500','A02'),
+('2022PUMUORO250','Pulcera_Mujer','720.00',NULL,'M','ORO','ACC','250','A02');
+
+INSERT INTO 
+Almacen(ID_Almacen, Direccion, Telefono, Zona_distribucion, Disponibilidad, Capacidad)
+VALUES
+('A01','123 Calle 42, Nucalpan, Edo Mex 65454','443-245-8658','CentroA','2000','10000'),
+('A02','1748 Calle Irrigacion, Naucalpan, Edo Mex 65345','784-543-7584','CentroB','100','5000'),
+('A03','64 Calle Obregon, Monterrey, Nuevo Leon 647832','223-455-8732','NorEste','10','1000'),
+('A04','785 Calle Juarez, Tijuana, Baja California 98490','646-627-7854','NorOeste','0','5000'),
+('A05','645 Calle 42, Nucalpan, Oaxaca, Oaxaca 65454','152-743-0988','Sur','2000','8000'),
+('A06','124 Calle Carranza, Veracruz, Veracruz 1374','173-245-8658','Este','50','2000'),
+('A07','32 Calle Tequila, Guadalajara, Jalisco 98675','229-245-8658','Oeste','20','3000'),
+('A08','1748 Calle 50, Merida, Yucatan 74324','784-543-6748','Sur-Este','100','5000');
+
+INSERT INTO 
+Proveedores(ID_Proveedor, RFC, Direccion, Contacto, Tipo)
+VALUES
+('PROV01','PGTU6F8903HD','74 calle Lagos, Santa Fe,CDMX 65748','proveedor1@gmail.com','Telas'),
+('PROV02','UE63F7829SRI','637 calle Cervantes, Cancun, Quintana Roo 867511','proveedor2@gmail.com','Piel'),
+('PROV03','UN74784932RH','123 calle Sonora, Monterrey, Nuevo Leon 784234','proveedor3@gmail.com','Telas'),
+('PROV04','HF8594387FG6','583 calle lagos, CDMX 65748','proveedor4@gmail.com','Accesorios');
