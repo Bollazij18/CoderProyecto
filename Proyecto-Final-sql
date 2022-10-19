@@ -1,9 +1,9 @@
 -- Creation of Database and tables (More tables to come next) --
 
 IF DATABASE e_commerce IS NULL
-CREATE DATABASE e_commerce
+CREATE DATABASE e_commerce;
 
-GO
+USE e_commrce;
 
 CREATE TABLE Clientes(
 Usuario	VarChar(21) NOT NULL,
@@ -12,9 +12,9 @@ Apellido	VarChar(21) NOT NULL,
 Direccion	VarChar(60) NOT NULL,
 Telefono	VarChar(15) NOT NULL,
 Edad	TinyInt NOT NULL,
-Tarjeta 1	ShortInt NOT NULL,
-Tarjeta 2	ShortInt,
-Tarjeta 3	ShortInt,
+Tarjeta_1	ShortInt NOT NULL,
+Tarjeta_2	ShortInt,
+Tarjeta_3	ShortInt,
 RFC	VarChar (20),
 
 PRIMARY KEY (Usuario)
@@ -72,7 +72,7 @@ PRIMARY KEY (ID_Proveedor),
 -- Insertion of data (More tables and data to come next)-- 
 
 INSERT INTO 
-Clientes(Usuario, Nombre, Apellido, Direccion, Telefono, Edad, Tarjeta 1, Tarjeta 2, Tarjeta 3, RFC)
+Clientes(Usuario, Nombre, Apellido, Direccion, Telefono, Edad, Tarjeta_1, Tarjeta_2, Tarjeta_3, RFC)
 VALUES
 ('JP29','Juan','Perez','12 Calle Lago, Interlomas, CDMX 77292','123-654-2345','25','1234567891234567', NULL, NULL,'JUPEZ1234H'),
 ('JJSuarez','Jose','Suarez','254 Calle Espino, Chapultepec, CDMX 53624','123-874-2843','45','1234567891234567', '1234567891234567', NULL,'JOSUZ5432Y'),
@@ -81,7 +81,7 @@ VALUES
 ('SofOrt','Sofia','Ortiz','172 calle Lago, Queretaro,Queretaro 61632','363-163-7921','43','1234567891234567', 1234567891234567, NULL,'SOORZ6839S'),
 ('RegJACK','Regina','Jackson','221 calle Durango, La Condesa, CDMX 19829','123-759-9821','67','1234567891234567', NULL, NULL,'REJN8579Q'),
 ('AlMol','Alexis','Molina','94 calle Londres, Chihuahua, CDMX 12256','123-167-8532',29','1234567891234567', 1234567891234567, 1234567891234567,'ALMO85943FS'),
-('AlfCampos','Alfredo','Campos','64 calle Artemisa, Puebla,Puebla 83201','166-748-3421','34','1234567891234567', NULL, NULL,'ALCA8492NB'),
+('AlfCampos','Alfredo','Campos','64 calle Artemisa, Puebla,Puebla 83201','166-748-3421','34','1234567891234567', NULL, NULL,'ALCA8492NB');
 
 
 INSERT INTO 
