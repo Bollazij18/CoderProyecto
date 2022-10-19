@@ -52,7 +52,7 @@ CREATE TABLE Almacen(
 ID_Almacen	VarChar(10) NOT NULL,
 Direccion	VarChar(60) NOT NULL,
 Telefono	VarChar(15) NOT NULL,
-Zona_distribucion	VarChat(10) NOT NULL,
+Zona_distribucion	VarChar(10) NOT NULL,
 Disponibilidad	TinyInt NOT NULL,
 Capacidad	SmallInt NOT NULL,
 
@@ -64,7 +64,7 @@ ID_Proveedor	VarChar(30) NOT NULL,
 RFC	VarChar(20) NOT NULL,
 Direccion Varchar(60),
 Contacto VarChar(30),
-Tipo	VarChat(15) NOT NULL,
+Tipo	VarChar(15) NOT NULL,
 
 PRIMARY KEY (ID_Proveedor),
 );
