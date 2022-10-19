@@ -186,7 +186,7 @@ SELECT DISTINCT C.Usuario, C.Nombre, C.Apellido, COUNT(P.ID_Pedido) AS Pedidos_U
 FROM Clientes C
 JOIN Pedidos P ON C.Usuario = P.Pedidos
 WHERE P.ID_Pedido IS NOT NULL
-GROUP BY 1,4
+GROUP BY 1
 ORDER BY Pedidos_Usuario DESC
 LIMIT 10;
 
