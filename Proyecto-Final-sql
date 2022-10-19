@@ -147,3 +147,50 @@ VALUES
 ('PROV02','UE63F7829SRI','637 calle Cervantes, Cancun, Quintana Roo 867511','proveedor2@gmail.com','Piel'),
 ('PROV03','UN74784932RH','123 calle Sonora, Monterrey, Nuevo Leon 784234','proveedor3@gmail.com','Telas'),
 ('PROV04','HF8594387FG6','583 calle lagos, CDMX 65748','proveedor4@gmail.com','Accesorios');
+
+
+
+-- Creation of Views --
+
+CREATE VIEW [ROPA_CABALLERO_DISPONIBLE] AS 
+SELECT SKU, Nombre_Articulo, Precio, Talla	, Genero, Color, Tipo, Almacen
+FROM Productos
+WHERE Genero = 'H' AND Disponibilidad <> ['0',NULL];
+
+SELECT * FROM [ROPA_CABALLEROS_DISPONIBLE];
+
+CREATE VIEW [ROPA_DAMA_DISPONIBLE] AS 
+SELECT SKU, Nombre_Articulo, Precio, Talla	, Genero, Color, Tipo, Almacen
+FROM Productos
+WHERE Genero = 'M' AND Disponibilidad <> ['0',NULL];
+
+SELECT * FROM [ROPA_DAMA_DISPONIBLE];
+
+CREATE VIEW [ULIMOS_PEDIDOS] AS
+SELECT *
+FROM Pedidos
+WHERE ID_Pedido IS NOT NULL 
+ORDER BY Fecha DESC;
+
+SELECT * FROM [ULTIMOS_PEDIDOS];
+
+CREATE [ALMACEN_LLENO] AS
+SELECT *
+FROM Almacen
+WHERE Disponibilidad = '0'
+
+SELECT * FROM [ALMACEN_LLENO];
+
+CREATE [USUARIOS_ACTIVOS] AS
+SELECT DISTINCT C.Usuario, C.Nombre, C.Apellido, COUNT(P.ID_Pedido) AS Pedidos_Usuario
+FROM Clientes C
+JOIN Pedidos P ON C.Usuario = P.Pedidos
+WHERE P.ID_Pedido IS NOT NULL
+GROUP BY 1,4
+ORDER BY Pedidos_Usuario DESC
+LIMIT 10;
+
+SELECT * FROM [USUARIOS_ACTIVOS];
+
+-- Creation of Functions --
+
