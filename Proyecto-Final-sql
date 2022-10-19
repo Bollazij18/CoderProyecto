@@ -153,14 +153,14 @@ VALUES
 -- Creation of Views --
 
 CREATE VIEW [ROPA_CABALLERO_DISPONIBLE] AS 
-SELECT SKU, Nombre_Articulo, Precio, Talla	, Genero, Color, Tipo, Almacen
+SELECT SKU, Nombre_Articulo, Precio, Talla, Genero, Color, Tipo, Almacen
 FROM Productos
 WHERE Genero = 'H' AND Disponibilidad <> ['0',NULL];
 
 SELECT * FROM [ROPA_CABALLEROS_DISPONIBLE];
 
 CREATE VIEW [ROPA_DAMA_DISPONIBLE] AS 
-SELECT SKU, Nombre_Articulo, Precio, Talla	, Genero, Color, Tipo, Almacen
+SELECT SKU, Nombre_Articulo, Precio, Talla, Genero, Color, Tipo, Almacen
 FROM Productos
 WHERE Genero = 'M' AND Disponibilidad <> ['0',NULL];
 
