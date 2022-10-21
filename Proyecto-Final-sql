@@ -194,3 +194,39 @@ SELECT * FROM [USUARIOS_ACTIVOS];
 
 -- Creation of Functions --
 
+-- Esta funcion calcula el tiempo que ha pasado en dias, --
+-- sera uilizado para regresar el tiempo ocurrido en dias de las compras realizadas--
+
+DELIMITER //
+
+CREATE FUNCTION no_de_dias (Fecha1 DATE) RETURNS int DETERMINISTIC
+
+BEGIN
+ DECLARE Fecha2 DATE;
+  Select current_date()into Fecha2;
+  RETURN (Fecha2)-(Fecha1);
+
+END 
+
+END; //
+
+DELIMITER ;
+
+-- Esta funcion determina si los usuarios son mayores de edad o no --
+
+DELIMITER //
+
+CREATE FUNCTION Mayor_Edad (Edad INTEGER) RETURNS VarChar(4) DETERMINISTIC
+
+BEGIN
+ IF Edad >= 21 THEN
+ RETURN 'YES';
+ ELSE
+ RETURN 'NO';
+ END IF;
+
+END
+
+END; //
+
+DELIMITER ;
