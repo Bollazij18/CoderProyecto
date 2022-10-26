@@ -232,19 +232,23 @@ END; //
 DELIMITER ;
 
 -- Creation of SPs -- 
--- Este SP ordena el campo por fecha de una forma desc -- 
+-- Este SP ordena el campo seleccionado por el usuario y de una forma desc o Asc dependiendo si el usuario selecciona 1 o 0-- 
 
 DELIMITER //
-CREATE PROCEDURE  (@campo VarChar(), @orden VarChar())
+CREATE PROCEDURE  (IN @campo VarChar(), IN @orden INTEGER)
 
 BEGIN
- 
-  SELECT * FROM Pedidos
-  ORDER BY Fecha DESC
- 
-END
+ IF @order = 1
+  THEN
+   SELECT * FROM Pedidos
+   ORDER BY @campo DESC
+  ELSE
+   SELECT * FROM Pedidos
+   ORDER BY @campo ASC
+ END IF
+END;
 
-END; //
+//
 
 -- Este SP permite insertar valores en la tabla de Clientes --
 
@@ -258,11 +262,11 @@ AS
         BEGIN
             INSERT INTO Clientes (Usuario, Nombre, Apellido, Direccion, Telefono, Edad, Tarjeta_1, Tarjeta_2, Tarjeta_3, RFC)
             
-            VALUES     (@Usuario, @Nombre, @Apellido, @Direccion, @Telefono, @Edad, @Tarjeta_1, @Tarjeta_2, @Tarjeta_3, @RFC)
+            VALUES  (@Usuario, @Nombre, @Apellido, @Direccion, @Telefono, @Edad, @Tarjeta_1, @Tarjeta_2, @Tarjeta_3, @RFC)
         END
-     END IF;
-END; //
-
+     END IF
+END; 
+//
 
 -- Creation of Triggers --
 
