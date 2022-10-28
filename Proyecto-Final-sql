@@ -66,7 +66,56 @@ Direccion Varchar(60),
 Contacto VarChar(30),
 Tipo	VarChar(15) NOT NULL,
 
-PRIMARY KEY (ID_Proveedor),
+PRIMARY KEY (ID_Proveedor)
+);
+
+CREATE TABLE Cambios_Clientes(
+Usuario	VarChar(21) NOT NULL,
+Nombre	VarChar(21) NOT NULL,
+Apellido	VarChar(21) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Edad	TinyInt NOT NULL,
+Tarjeta_1	ShortInt NOT NULL,
+Tarjeta_2	ShortInt,
+Tarjeta_3	ShortInt,
+RFC	VarChar (20),
+Fecha_de_Cambio Date NOT NULL,
+Tiempo_Actualizacion Time NOT NULL,
+ID_Cambio Integer AUTO_INCREMENT NOT NULL,
+Tipo_Cambio Var_Char(15) NOT NULL,
+
+FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario)
+);
+
+CREATE TABLE Movimientos(
+ID_Ops VarChar (40) NOT NULL,
+ID_Almacen	VarChar(10) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Direccion_Envio	VarChar(10) NOT NULL,
+Tiempo_Entrega	Date NOT NULL,
+
+PRIMARY KEY (ID_Ops),
+FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario),
+FOREIGN KEY (ID_Almacen) REFERENCES Almacen(ID_Almacen)
+);
+
+CREATE TABLE Operaciones_Almacen(
+ID_Ops VarChar (40) NOT NULL,
+ID_Almacen	VarChar(10) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Direccion_Envio	VarChar(10) NOT NULL,
+Tiempo_Entrega	Date NOT NULL,
+Fecha_Actualizacion Date NOT NULL,
+Tiempo_Actualizacion Time NOT NULL,
+ID_Actualizacion  AUTO_INCREMENT NOT NULL,
+Tipo_Actualizacion Var_Char(15) NOT NULL,
+
+PRIMARY KEY (ID_Ops),
+FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario),
+FOREIGN KEY (ID_Almacen) REFERENCES Almacen(ID_Almacen)
 );
 
 -- Insertion of data (More tables and data to come next)-- 
@@ -270,4 +319,97 @@ END;
 
 -- Creation of Triggers --
 
+--Estos dos triggers son para la tabla de operaciones de almacen--
+--Este trigger 
+DELIMITER //
+CREATE TRIGGER
+ON Movimientos
+BEFORE INSERT, DELETE FOR EACH ROW
+AS
 
+BEGIN
+DECLARE User VarChar (40);
+SELECT USER() INTO aUser;
+SET NEW.Modificado_Fecha = GETDATE();
+SET NEW.Modificado_Tiempo = GETTIME();
+SET NEW.Modificado_por = aUser;
+
+END;
+//
+-- Este trigger inserta un registro nuevo de lo inserado o borrado en la tabla de movimientos --
+DELIMITER//
+CREATE TRIGGER 
+ON Movimientos
+AFTER INSERT, DELETE
+
+AS
+
+BEGIN
+ SET NOCOUNT ON;
+
+ INSERT INTO Operaciones_Almacen(
+  ID_Ops, ID_Almacen, Direccion, Telefono, Direccion_Envio, Tiempo_Entrega, Fecha_Actualizacion,Tiempo_Actualizacion, ID_Actualizacion, Tipo_Actualizacion)
+
+ SELECT
+  i.ID_Ops, i.ID_Almacen, i.Direccion, i.Telefono, i.Direccion_Envio, i.Tiempo_Entrega, GETDATE(), GETTIME(), AUTO_INCREMENT(), 'INS'
+ 
+ FROM
+ Inserted AS i
+ 
+    UNION ALL
+    
+ SELECT
+  d.ID_Ops, d.ID_Almacen, d.Direccion, d.Telefono, d.Direccion_Envio, d.Tiempo_Entrega, GETDATE(), GETTIME(), AUTO_INCREMENT(),'DEL'
+ 
+ FROM
+ Deleted AS d;
+END;
+//
+
+--Estos dos triggers son para la tabla de cambios en la base de clientes o usuarios--
+DELIMITER //
+CREATE TRIGGER
+ON Clientes
+BEFORE INSERT, DELETE FOR EACH ROW
+AS
+
+BEGIN
+DECLARE User VarChar (40);
+SELECT USER() INTO aUser;
+SET NEW.Modificado_Fecha = GETDATE();
+SET NEW.Modificado_Tiempo = GETTIME();
+SET NEW.Modificado_por = aUser;
+
+END;
+//
+-- Este trigger inserta un registro con los datos insertados o borrados en la tabla de clientes --
+DELIMITER //
+CREATE TRIGGER
+ON Clientes
+AFTER INSERT, DELETE
+AS
+
+BEGIN
+ SET NOCOUNT ON;
+ 
+ INSERT INTO Cambios_Clientes(
+  Usuario, Nombre, Apellido, Direccion, Telefono, Edad, Tarjeta_1, Tarjeta_2, Tarjeta_3, RFC, Fecha_de_Cambio, Tiempo_Actualizacion, ID_Cambio, Tipo_Cambio)
+
+ SELECT
+  i.Usuario, i.Nombre, i.Apellido, i.Direccion, i.Telefono, i.Edad, i.Tarjeta_1, i.Tarjeta_2, i.Tarjeta_3, i.RFC, GETDATE(), GETTIME(), AUTO_INCREMENT(),'INS'
+ 
+ FROM
+ Inserted AS i
+ 
+    UNION ALL
+    
+ SELECT
+  d.Usuario, d.Nombre, d.Apellido, d.Direccion, d.Telefono, d.Edad, d.Tarjeta_1, d.Tarjeta_2, d.Tarjeta_3, d.RFC, GETDATE(), GETTIME(), d.AUTO_INCREMENT(),'DEL'
+ 
+ FROM
+ Deleted AS d;
+END;
+//
+
+-- 
+--
