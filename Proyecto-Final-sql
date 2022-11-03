@@ -223,14 +223,14 @@ ORDER BY Fecha DESC;
 
 SELECT * FROM [ULTIMOS_PEDIDOS];
 
-CREATE [ALMACEN_LLENO] AS
+CREATE VIEW [ALMACEN_LLENO] AS
 SELECT *
 FROM Almacen
 WHERE Disponibilidad = '0'
 
 SELECT * FROM [ALMACEN_LLENO];
 
-CREATE [USUARIOS_ACTIVOS] AS
+CREATE VIEW [USUARIOS_ACTIVOS] AS
 SELECT DISTINCT C.Usuario, C.Nombre, C.Apellido, COUNT(P.ID_Pedido) AS Pedidos_Usuario
 FROM Clientes C
 JOIN Pedidos P ON C.Usuario = P.Pedidos
@@ -284,7 +284,7 @@ DELIMITER ;
 -- Este SP ordena el campo seleccionado por el usuario y de una forma desc o Asc dependiendo si el usuario selecciona 1 o 0-- 
 
 DELIMITER //
-CREATE PROCEDURE  (IN @campo VarChar(), IN @orden INTEGER)
+CREATE PROCEDURE Order_Campo (IN @campo VarChar(), IN @orden INTEGER)
 
 BEGIN
  IF @order = 1
@@ -303,8 +303,7 @@ END;
 
 DELIMITER //
 CREATE PROCEDURE Master_Insert (@Usuario	VarChar(21, @Nombre	VarChar(21), @Apellido	VarChar(21), @Direccion	VarChar(60), 
-                                @Telefono	VarChar(15), Edad	TinyInt, @Tarjeta_1	ShortInt, @Tarjeta_2	ShortInt, @Tarjeta_3	ShortInt, @RFC	VarChar (20),
-                                @StatementType NVARCHAR(20) = '')
+                                @Telefono	VarChar(15), Edad	TinyInt, @Tarjeta_1	ShortInt, @Tarjeta_2	ShortInt, @Tarjeta_3	ShortInt, @RFC	VarChar (20))
 AS
   BEGIN
       IF @StatementType = 'Insert'
@@ -412,4 +411,6 @@ END;
 //
 
 -- 
---
+-- CREATION of "Sentencias" --
+
+
