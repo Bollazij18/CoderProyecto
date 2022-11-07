@@ -412,6 +412,28 @@ END;
 
 -- Creation of users and permissions --
 -- "Sentencias" --
+--Crear un usuario con habilidades de int y update y otro con solo update, No pueden eliminar --
 
+CREATE LOGIN Jose_B
+WITH PASSWORD = 'Pa$$word1';
+
+CREATE LOGIN Juan_M
+WITH PASSWORD = 'Pa$$word2';
+
+CREATE ROLE Managers;
+CREATE ROLE Supervisors;
+
+CREATE USER Manager_1 FOR LOGIN Jose_B;
+CREATE USER Supervisor_1 FOR LOGIN Juan_M;
+
+ALTER ROLE Managers
+ADD MEMBER Manager_1;
+
+ALTER Supervisors
+ADD MEMBER Supervisor_1;
+
+GRANT SELECT, UPDATE, ALTER, INSERT TO Managers;
+GRANT SELECT, ALTER, UPDATE TO Supervisors;
+--
 
 
