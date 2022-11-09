@@ -118,6 +118,16 @@ FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario),
 FOREIGN KEY (ID_Almacen) REFERENCES Almacen(ID_Almacen)
 );
 
+CREATE TABLE Pruebas_Varias(
+ID_Test VarChar (40) NOT NULL,
+Test_Text VarChar (100), 
+Fecha_Actualizacion Date NOT NULL,
+Tiempo_Actualizacion Time NOT NULL,
+Tipo_Actualizacion Var_Char(15) NOT NULL,
+
+PRIMARY KEY (ID_Test),
+);
+
 -- Insertion of data (More tables and data to come next)-- 
 
 INSERT INTO 
@@ -434,6 +444,64 @@ ADD MEMBER Supervisor_1;
 
 GRANT SELECT, UPDATE, ALTER, INSERT TO Managers;
 GRANT SELECT, ALTER, UPDATE TO Supervisors;
+--
+
+--TCL Commands --
+--Transacciones y comandos para entrega de TLC--
+
+Pruebas_Varias
+INSERT INTO Pruebas_Varias
+VALUES (1A, Primer prueba de la tabla, GETDATE(), GETTIME(), INS);
+COMMIT;
+
+INSERT INTO Pruebas_Varias
+VALUES (2A, Segunda prueba de la tabla, GETDATE(), GETTIME(), INS);
+COMMIT;
+
+UPDATE Pruebas_Varias
+SET Test_Text = 'Primera prueba actualizada' WHERE ID_Test = '1A';
+SAVEPOINT A;
+
+UPDATE Pruebas_Varias
+SET Test_Text = 'Primer prueba de tabla' WHERE ID_Test = '2A';
+SAVEPOINT B;
+
+ROLLBACK to A;
+COMMIT;
+
+--Insertando 8 nuevos registros en la tabla de pedidos con un savepoint a los 4 registros y otro a los 8 registros--
+
+INSERT INTO  Pedidos
+VALUES (1234579637,Juan32,2000.00,74 Calle Boston, Ciudad de Mexico 78323, 10/20/2022,Pantalon_Hombre,H,2);
+	
+INSERT INTO Pedidos
+VALUES ('SofOrt','3800.00','172 calle Lago, Queretaro,Queretaro 61632','6/10/2022','Blusa_Mujer','M','4');
+
+INSERT INTO Pedidos
+VALUES ('MP002','1598.00','222 Calle Juarez, Saltillo 12310','04/10/2022','Pantalon_Mujer','S','2');
+
+INSERT INTO Pedidos
+VALUES ('JJSuarez','1600.00','254 Calle Espino, Chapultepec, CDMX 53624','18/02/2020','Playera_Hombre','L','4');
+
+SAVEPOINT A;
+
+INSERT INTO Pedidos
+VALUES ('JJSuarez','350.00','254 Calle Espino, Chapultepec, CDMX 53624','18/02/2020','Cartera_Hombre',NULL,'1');
+
+INSERT INTO Pedidos
+VALUES ('JP29','5000.00','12 Calle Lago, Interlomas, CDMX 77292','1/12/2021','Camisa_Hombre','M','4');
+
+INSERT INTO Pedidos
+VALUES ('SofOrt','1900.00','172 calle Lago, Queretaro,Queretaro 61632','4/05/2022','Blusa_Mujer','S','2');
+
+INSERT INTO Pedidos
+VALUES ('SofOrt','799.00','172 calle Lago, Queretaro,Queretaro 61632','18/02/2022','Pantalon_Mujer','S','1');
+
+SAVEPOINT B;
+
+ROLLBACK TO A;
+COMMIT;
+
 --
 
 
