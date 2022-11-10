@@ -128,6 +128,16 @@ Tipo_Actualizacion Var_Char(15) NOT NULL,
 PRIMARY KEY (ID_Test),
 );
 
+CREATE TABLE Test_01(
+ID_Test01 VarChar (40) NOT NULL,
+Test_Field VarChar (20),
+Test_Text VarChar (100),
+Fecha_Actualizacion Date NOT NULL,
+Tiempo_Actualizacion Time NOT NULL,
+
+PRIMARY KEY (ID_Test01),
+);
+
 -- Insertion of data (More tables and data to come next)-- 
 
 INSERT INTO 
