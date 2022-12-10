@@ -1,1 +1,217 @@
+-- CREACION DE TABLAS Y BD --
+DROP DATABASE e_commerce;
+CREATE DATABASE e_commerce;
+
+USE e_commerce;
+-- Tabla de clientes (t1)--
+CREATE TABLE Clientes(
+Usuario VarChar(21) NOT NULL,
+Nombre	VarChar(21) NOT NULL,
+Apellido	VarChar(21) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Edad	TinyInt NOT NULL,
+Tarjeta_1	VarChar(17) NOT NULL,
+Tarjeta_2	VarChar(17),
+Tarjeta_3	VarChar(17),
+RFC	 VarChar (20),
+
+PRIMARY KEY (Usuario)
+);
+-- Tabla de pedidos (t2)--
+CREATE TABLE Pedidos(
+ID_Pedido	VarChar(30) NOT NULL,
+Usuario	VarChar(21) NOT NULL,
+Monto	integer NOT NULL,
+Fecha	DateTime NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Nombre_Articulo	VarChar(21) NOT NULL,
+Talla VarChar(5) NOT NULL,
+Cantidad	int NOT NULL,
+
+PRIMARY KEY (ID_Pedido),
+FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario)
+);
+-- Tabla de productos (t3)--
+CREATE TABLE Productos(
+SKU	VarChar(30) NOT NULL,
+Nombre_Articulo	VarChar(21) NOT NULL,
+Precio	integer NOT NULL,
+Talla	VarChar(5),
+Genero	VarChar(10) NOT NULL,
+Color	VarChar(10) NOT NULL,
+Tipo	VarChar(15) NOT NULL,
+Disponibilidad	integer NOT NULL,
+Almacen	VarChar(10) NOT NULL,
+
+PRIMARY KEY (SKU)
+);
+-- Tabla de lista de almacenes (t4)--
+CREATE TABLE Almacen(
+ID_Almacen	VarChar(10) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Zona_distribucion	VarChar(10) NOT NULL,
+Disponibilidad	integer NOT NULL,
+Capacidad	integer NOT NULL,
+
+PRIMARY KEY (ID_Almacen)
+);
+-- Tabla de proveedores (t5)--
+CREATE TABLE Proveedores(
+ID_Proveedor VarChar(30) NOT NULL,
+RFC	VarChar(20) NOT NULL,
+Direccion Varchar(60),
+Contacto VarChar(30),
+Tipo	VarChar(15) NOT NULL,
+
+PRIMARY KEY (ID_Proveedor)
+);
+-- Tabla que registrara los cambios y modificaciones de la tabla de clientes (t6)--
+CREATE TABLE Cambios_Clientes(
+Usuario	VarChar(21) NOT NULL,
+Nombre	VarChar(21) NOT NULL,
+Apellido	VarChar(21) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Edad	integer NOT NULL,
+Tarjeta_1	integer NOT NULL,
+Tarjeta_2	integer,
+Tarjeta_3	integer,
+RFC	VarChar (20),
+Fecha_de_Cambio Date NOT NULL,
+Tiempo_Actualizacion Time NOT NULL,
+ID_Cambio Integer NOT NULL,
+Tipo_Cambio VarChar(15) NOT NULL,
+
+PRIMARY KEY (ID_Cambio),
+FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario)
+);
+-- Tabla de movimientos (t7)--
+CREATE TABLE Movimientos(
+ID_Ops VarChar (40) NOT NULL,
+ID_Almacen	VarChar(10) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Direccion_Envio	VarChar(10) NOT NULL,
+Tiempo_Entrega	Date NOT NULL,
+
+PRIMARY KEY (ID_Ops),
+FOREIGN KEY (ID_Almacen) REFERENCES Almacen(ID_Almacen)
+);
+-- Tabla de operaciones de los almacenes (t8)--
+CREATE TABLE Operaciones_Almacen(
+ID_Ops VarChar (40) NOT NULL,
+ID_Almacen	VarChar(10) NOT NULL,
+Direccion	VarChar(60) NOT NULL,
+Telefono	VarChar(15) NOT NULL,
+Direccion_Envio	VarChar(10) NOT NULL,
+Tiempo_Entrega	Date NOT NULL,
+Fecha_Actualizacion Date NOT NULL,
+Tiempo_Actualizacion Time NOT NULL,
+ID_Actualizacion  VarChar(40) NOT NULL,
+Tipo_Actualizacion VarChar(15) NOT NULL,
+
+PRIMARY KEY (ID_Ops),
+FOREIGN KEY (ID_Almacen) REFERENCES Almacen(ID_Almacen)
+);
+-- Tabla de pruebas en la base de datos (t9)--
+CREATE TABLE Pruebas_Varias(
+ID_Test VarChar (40) NOT NULL,
+Test_Text VarChar (100), 
+Fecha_Actualizacion Date NOT NULL,
+Tiempo_Actualizacion Time NOT NULL,
+Tipo_Actualizacion VarChar(15) NOT NULL,
+
+PRIMARY KEY (ID_Test)
+);
+-- Tabla de pruebas iniciales en la base de datos (t10)--
+CREATE TABLE Test_01(
+ID_Test01 VarChar (40) NOT NULL,
+Test_Field VarChar (20),
+Test_Text VarChar (100),
+Fecha_Actualizacion Date NOT NULL,
+Tiempo_Actualizacion Time NOT NULL,
+
+PRIMARY KEY (ID_Test01)
+);
+-- Tabla de pedidos eliminados por nosotros (t11) --
+CREATE TABLE Pedidos_eliminados(
+ID_Eliminado VarChar (30) NOT NULL,
+ID_Pedido VarChar(30) NOT NULL,
+Fecha Date NOT NULL,
+Nota VarChar(50),
+
+PRIMARY KEY (ID_Eliminado),
+FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(ID_Pedido)
+);
+-- Tabla de ordenes a proveedores (t12) --
+CREATE TABLE Orden_Proveedores(
+ID_Orden VarChar(30) NOT NULL,
+ID_Proveedor VarChar(30) NOT NULL,
+SKU	VarChar(30) NOT NULL,
+Nombre_Articulo	VarChar(21) NOT NULL,
+Costo	integer NOT NULL,
+Talla	VarChar(5),
+Genero	VarChar(10) NOT NULL,
+Color	VarChar(10) NOT NULL,
+Tipo	VarChar(15) NOT NULL,
+Almacen	VarChar(10) NOT NULL,
+
+PRIMARY KEY (ID_Orden),
+FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores(ID_Proveedor)
+);
+-- Tabla de ordenes canceladas a proveedores (t13) --
+CREATE TABLE Orden_cancelada(
+ID_Cancelacion VarChar(30) NOT NULL,
+ID_Orden VarChar(30) NOT NULL,
+ID_Proveedor VarChar(30) NOT NULL,
+Fecha_cancelacion date,
+
+PRIMARY KEY (ID_cancelacion),
+FOREIGN KEY (ID_Orden) REFERENCES Orden_Proveedores(ID_Orden)
+);
+-- Tabla de empleados (t14) --
+CREATE TABLE Empleados(
+ID_Empleado VarChar(10) NOT NULL,
+Nombre VarChar(21) NOT NULL,
+Apellido VarChar(21) NOT NULL,
+Edad Integer,
+Puesto VarChar(20) NOT NULL,
+Usuario VarChar(21),
+Descuento Integer,
+Telefono VarChar(10),
+
+PRIMARY KEY (ID_Empleado),
+FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario)
+);
+-- Tabla de pedidos cancelados por el clinete (t15) --
+CREATE TABLE Pedidos_cancelados(
+ID_Cancelado VarChar(30) NOT NULL,
+ID_Pedido VarChar(30) NOT NULL,
+Usuario VarChar(21) NOT NULL,
+Fecha_Cancelacion Date NOT NULL,
+Nota VarChar(50),
+Devolucion Integer NOT NULL,
+
+PRIMARY KEY(ID_Cancelado),
+FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(ID_Pedido)
+);
+-- Tabla de pedidos retornados por el cliente (t16) --
+CREATE TABLE Pedidos_devueltos(
+ID_Retorno VarChar(30) NOT NULL,
+ID_Pedido VarChar(30) NOT NULL,
+Usuario VarChar(21) NOT NULL,
+Fecha_Devolucion Date NOT NULL,
+Nota VarChar(50) NOT NULL,
+ID_Almacen VarChar(10) NOT NULL,
+
+PRIMARY KEY(ID_Retorno),
+FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(ID_Pedido)
+);
+
+
+-- AGREGAR DATA EN TABLAS -- 
+-- Solo algunas tablas de las 15 tablas tienen regstro inicial de datos ya que el resto de las tablas son vistas o tablas con modificacioens adicionales -- 
+
 
