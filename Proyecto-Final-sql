@@ -1,8 +1,12 @@
--- CREACION DE TABLAS Y BD --
+-- CREACION DE BASE DE DATOS --
+
 DROP DATABASE e_commerce;
 CREATE DATABASE e_commerce;
 
 USE e_commerce;
+
+-- CREACION DE TABLAS --
+
 -- Tabla de clientes (t1)--
 CREATE TABLE Clientes(
 Usuario VarChar(21) NOT NULL,
@@ -18,6 +22,7 @@ RFC	 VarChar (20),
 
 PRIMARY KEY (Usuario)
 );
+
 -- Tabla de pedidos (t2)--
 CREATE TABLE Pedidos(
 ID_Pedido	VarChar(30) NOT NULL,
@@ -41,7 +46,7 @@ Talla	VarChar(5),
 Genero	VarChar(10) NOT NULL,
 Color	VarChar(10) NOT NULL,
 Tipo	VarChar(15) NOT NULL,
-Disponibilidad	integer NOT NULL,
+Disponibilidad	INTEGER NOT NULL,
 Almacen	VarChar(10) NOT NULL,
 
 PRIMARY KEY (SKU)
@@ -149,14 +154,13 @@ FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(ID_Pedido)
 CREATE TABLE Orden_Proveedores(
 ID_Orden VarChar(30) NOT NULL,
 ID_Proveedor VarChar(30) NOT NULL,
-SKU	VarChar(30) NOT NULL,
 Nombre_Articulo	VarChar(21) NOT NULL,
 Costo	integer NOT NULL,
 Talla	VarChar(5),
 Genero	VarChar(10) NOT NULL,
 Color	VarChar(10) NOT NULL,
 Tipo	VarChar(15) NOT NULL,
-Almacen	VarChar(10) NOT NULL,
+Cantidad INTEGER(10) NOT NULL,
 
 PRIMARY KEY (ID_Orden),
 FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores(ID_Proveedor)
@@ -180,7 +184,7 @@ Edad Integer,
 Puesto VarChar(20) NOT NULL,
 Usuario VarChar(21),
 Descuento Integer,
-Telefono VarChar(10),
+Telefono VarChar(15),
 
 PRIMARY KEY (ID_Empleado),
 FOREIGN KEY (Usuario) REFERENCES Clientes(Usuario)
@@ -212,9 +216,234 @@ FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(ID_Pedido)
 
 
 -- AGREGAR DATA EN TABLAS -- 
--- Solo algunas tablas de las 15 tablas tienen regstro inicial de datos ya que el resto de las tablas son vistas o tablas con modificacioens adicionales -- 
+-- Solo algunas tablas de las 16 tablas tienen regstro inicial de datos ya que el resto de las tablas son vistas o tablas con modificacioens adicionales -- 
+
+INSERT INTO 
+Clientes(Usuario, Nombre, Apellido, Direccion, Telefono, Edad, Tarjeta_1, Tarjeta_2, Tarjeta_3, RFC)
+VALUES
+('JP29','Juan','Perez','12 Calle Lago, Interlomas, CDMX 77292','123-654-2345','25','1234567891234567', NULL, NULL,'JUPEZ1234H'),
+('JJSuarez','Jose','Suarez','254 Calle Espino, Chapultepec, CDMX 53624','123-874-2843','45','1234567891234567', '1234567891234567', NULL,'JOSUZ5432Y'),
+('MP002','Maria','Perez','222 Calle Juarez, Saltillo 12310','223-657-8954','18','1234567891234567', NULL, NULL,'MAPEZ64738J'),
+('JMorales','Jorge','Morales','654 calle 42, Merida, Yucatan 11590','774-965-3884','36','1234567891234567', NULL, NULL,'JOMOL5896HG'),
+('SofOrt','Sofia','Ortiz','172 calle Lago, Queretaro,Queretaro 61632','363-163-7921','43','1234567891234567', 1234567891234567, NULL,'SOORZ6839S'),
+('RegJACK','Regina','Jackson','221 calle Durango, La Condesa, CDMX 19829','123-759-9821','67','1234567891234567', NULL, NULL,'REJN8579Q'),
+('AlMol','Alexis','Molina','94 calle Londres, Chihuahua, CDMX 12256','123-167-8532','29','1234567891234567', 1234567891234567, 1234567891234567,'ALMO85943FS'),
+('AlfCampos','Alfredo','Campos','64 calle Artemisa, Puebla,Puebla 83201','166-748-3421','34','1234567891234567', NULL, NULL,'ALCA8492NB'),
+('MH011','Maria','Hernandez','193 Calle Sur, Merida, Yucatan 93829','234-235-3824','30','1234567891234567', '1234567891234567', NULL,'MAHEZ9426K'),
+('AH678','Angel','Hanz','72 Calle Norte, Monterrey, Nuevo Leonn 83721','234-235-4739','20','1234567891234567', NULL, NULL,'ANHAZ931P'),
+('IH012','Isaias','Hidalgo','44 Calle Sur, Guadalajara, Jalisco 34564','123-235-5433','56','1234567891234567', '1234567891234567', NULL,'ISHIO758B'),
+('SV732','Sofia','Velazquez','21 Calle Norte, Napoles CDMX 21442 ','123-049-0932','45','1234567891234567', NULL, NULL,'SOVEZ657M'),
+('ML092','Manuel','Larson','62 Calle 73, Iztapalapa, CDMX 13472','123-739-8493','35','1234567891234567', '1234567891234567', '1234567891234567','MALAN622I'),
+('JoRo283','Jose','Rodriguez','71 Calle Lagos, Granada, CDMX 3183','234-543-8594','26','1234567891234567', NULL, NULL,'JOROZ321U'),
+('Alvaro002','Alvaro','Hernandez','75 Calle Montes, Merida, Yucatan 88234','432-985-8594','18','1234567891234567', NULL, NULL,'ALHE769B'),
+('JuMOrales01','Julia','Morales','883 Calle Norte, Monterrey, Nuevo Leon 72834','109-854-0604','17','1234567891234567', NULL, NULL,'JUMOS109Z'),
+('Anya102','Anya','Vazquez','282 Calle del Beso, Guanajuato, Leon 78432','920-982-0494','29','1234567891234567', '1234567891234567', NULL,'ANVAZ5432Q'),
+('VeronicaSe136','Veronica','Sevilla','431 Calle Ruedores, La Paz, Baja California 7372','782-761-7283','44','1234567891234567', '1234567891234567', NULL,'VESEA049G'),
+('JeSosa184','Jesus','Sosa','21 Calle 228, Queretaro, Queretaro 2472','823-736-8484','30','1234567891234567', NULL, NULL,'JESOOA760H'),
+('212Rodrigo','Rodrigo','Suarez','28 Calle Rios, Puebla, Puebla 54423','163-173-8572','32','1234567891234567', NULL, NULL,'ROSUZ163U');
 
 
+INSERT INTO 
+Pedidos(ID_Pedido,Usuario, Monto, Fecha, Direccion, Nombre_Articulo, Talla, Cantidad)
+VALUES
+('1','JP29','2500.00','2022-08-20 0:0:0','12 Calle Lago, Interlomas, CDMX 77292','Camisa_Hombre','M','2'),
+('2','JP29','5000.00','2021-12-1 0:0:0','12 Calle Lago, Interlomas, CDMX 77292','Camisa_Hombre','M','4'),
+('3','SofOrt','1900.00','2022-05-04 0:0:0','172 calle Lago, Queretaro,Queretaro 61632','Blusa_Mujer','S','2'),
+('4','SofOrt','799.00','2022-02-18 0:0:0','172 calle Lago, Queretaro,Queretaro 61632','Pantalon_Mujer','S','1'),
+('5','AlfCampos','1900.00','2022-02-18 0:0:0','64 calle Artemisa, Puebla,Puebla 83201','Pantalon_Hombre','M','2'),
+('6','MP002','7200.00','2021-08-15 0:0:0','222 Calle Juarez, Saltillo 12310','Pulcera_Mujer','U','10'),
+('7','SofOrt','3800.00','2022-10-6 0:0:0','172 calle Lago, Queretaro,Queretaro 61632','Blusa_Mujer','M','4'),
+('8','MP002','1598.00','2022-04-22 0:0:0','222 Calle Juarez, Saltillo 12310','Pantalon_Mujer','S','2'),
+('9','JJSuarez','1600.00','2020-02-18 0:0:0','254 Calle Espino, Chapultepec, CDMX 53624','Playera_Hombre','L','4'),
+('10','JJSuarez','350.00','2020-02-14 0:0:0','254 Calle Espino, Chapultepec, CDMX 53624','Cartera_Hombre','U','1'),
+('11','SV732','799.00','2022-10-20 0:0:0','21 Calle Norte, Napoles CDMX 21442','Pantalon_Mujer','S','1'),
+('12','JuMOrales01','1250.00','2021-01-12 0:0:0','883 Calle Norte, Monterrey, Nuevo Leon 72834','Camisa_Hombre','L','1'),
+('13','JoRo283','5000.00','2022-02-10 0:0:0','71 Calle Lagos, Granada, CDMX 3183','Camisa_Hombre','M','4'),
+('14','SV732','1440.00','2022-02-10 0:0:0','21 Calle Norte, Napoles CDMX 21442','Pulcera_Mujer','U','2'),
+('15','MP002','799.00','2022-02-10 0:0:0','222 Calle Juarez, Saltillo 12310','Pantalon_Mujer','M','1'),
+('16','MP002','950.00','2021-03-15 0:0:0','222 Calle Juarez, Saltillo 12310','Blusa_Mujer','S','1'),
+('17','212Rodrigo','5000.00','2022-03-6 0:0:0','28 Calle Rios, Puebla, Puebla 54423','Camisa_Hombre','M','4'),
+('18','ML092','400.00','2022-03-22 0:0:0','62 Calle 73, Iztapalapa, CDMX 13472','Cinturon_Hombre','U','1'),
+('19','Anya102','720.00','2020-03-18 0:0:0','282 Calle del Beso, Guanajuato, Leon 78432','Pulcera_Mujer','U','1'),
+('20','RegJACK','1050.00','2020-03-14 0:0:0','221 calle Durango, La Condesa, CDMX 19829','Cartera_Mujer','U','3'),
+('21','JJSuarez','2500.00','2022-04-20 0:0:0','254 Calle Espino, Chapultepec, CDMX 53624','Camisa_Hombre','L','2'),
+('22','Alvaro002','799.00','2021-04-01 0:0:0','75 Calle Montes, Merida, Yucatan 88234','Pantalon_Hombre','L','1'),
+('23','VeronicaSe136','950.00','2022-04-04 0:0:0','431 Calle Ruedores, La Paz, Baja California 7372','Blusa_Mujer','M','1'),
+('24','212Rodrigo','799.00','2022-04-18 0:0:0','28 Calle Rios, Puebla, Puebla 54423','Pantalon_Hombre','M','1'),
+('25','AlMol','2000.00','2022-05-18 0:0:0','94 calle Londres, Chihuahua, CDMX 12256','Playera_Hombre','M','5'),
+('26','ML092','2850.00','2021-05-15 0:0:0','62 Calle 73, Iztapalapa, CDMX 13472','Blusa_Mujer','L','3'),
+('27','JeSosa184','400.00','2022-05-6 0:0:0','21 Calle 228, Queretaro, Queretaro 2472','Playera_Hombre','L','1'),
+('28','JP29','1900.00','2022-05-22 0:0:0','12 Calle Lago, Interlomas, CDMX 77292','Blusa_Mujer','S','2'),
+('29','JP29','2500.00','2020-07-18 0:0:0','12 Calle Lago, Interlomas, CDMX 77292','Camisa_Hombre','M','2'),
+('30','JeSosa184','1598.00','2020-07-14 0:0:0','21 Calle 228, Queretaro, Queretaro 2472','Pantalon_Mujer','M','2'),
+('31','IH012','3750.00','2022-07-20 0:0:0','44 Calle Sur, Guadalajara, Jalisco 34564','Camisa_Hombre','M','3'),
+('32','VeronicaSe136','2850.00','2021-07-1 0:0:0','431 Calle Ruedores, La Paz, Baja California 7372','Blusa_Mujer','S','3'),
+('33','VeronicaSe136','700.00','2022-07-04 0:0:0','431 Calle Ruedores, La Paz, Baja California 7372','Cartera_Mujer','U','2'),
+('34','JoRo283','720.00','2022-07-18 0:0:0','71 Calle Lagos, Granada, CDMX 3183','Pulcera_Mujer','U','1'),
+('35','JoRo283','400.00','2022-07-18 0:0:0','71 Calle Lagos, Granada, CDMX 3183','Playera_Hombre','M','1'),
+('36','RegJACK','800.00','2021-08-15 0:0:0','221 calle Durango, La Condesa, CDMX 19829','Cinturon_Hombre','U','2'),
+('37','JuMOrales01','1200.00','2022-08-6 0:0:0','883 Calle Norte, Monterrey, Nuevo Leon 72834','Playera_Hombre','L','3'),
+('38','RegJACK','350.00','2022-08-22 0:0:0','221 calle Durango, La Condesa, CDMX 19829','Cinturon_Mujer','U','1'),
+('39','IH012','2500','2020-08-18 0:0:0','44 Calle Sur, Guadalajara, Jalisco 34564','Camisa_Hombre','L','2'),
+('40','IH012','1600.00','2020-08-14 0:0:0','44 Calle Sur, Guadalajara, Jalisco 34564','Playera_Hombre','M','4'),
+('41','JuMOrales01','950.00','2022-08-20 0:0:0','883 Calle Norte, Monterrey, Nuevo Leon 72834','Blusa_Mujer','M','1'),
+('42','Alvaro002','1250.00','2021-09-1 0:0:0','75 Calle Montes, Merida, Yucatan 88234','Camisa_Hombre','M','1'),
+('43','AlfCampos','1250.00','2022-09-04 0:0:0','64 calle Artemisa, Puebla,Puebla 83201','Camisa_Hombre','M','1'),
+('44','AlfCampos','799.00','2022-11-18 0:0:0','64 calle Artemisa, Puebla,Puebla 83201','Pantalon_Hombre','L','1'),
+('45','IH012','1200.00','2022-09-18 0:0:0','44 Calle Sur, Guadalajara, Jalisco 34564','Cinturon_Hombre','U','3'),
+('46','JJSuarez','5000.00','2022-09-5 0:0:0','254 Calle Espino, Chapultepec, CDMX 53624','Camisa_Hombre','S','4'),
+('47','JJSuarez','5000.00','2022-09-20 0:0:0','254 Calle Espino, Chapultepec, CDMX 53624','Camisa_Hombre','M','4'),
+('48','JJSuarez','350.00','2022-10-22 0:0:0','254 Calle Espino, Chapultepec, CDMX 53624','Cartera_Mujer','U','1'),
+('49','AH678','799.00','2020-10-18 0:0:0','72 Calle Norte, Monterrey, Nuevo Leonn 83721','Pantalon_Mujer','S','1'),
+('50','AH678','2880.00','2020-11-14 0:0:0','72 Calle Norte, Monterrey, Nuevo Leonn 83721','Pulcera_Mujer','U','4');
+
+INSERT INTO 
+Productos(SKU, Nombre_Articulo, Precio, Talla, Genero, Color, Tipo, Disponibilidad, Almacen)
+VALUES
+('2022CAHOBS200','Camisa_Hombre','1250.00','S','H','BLANCO','TOP','200','A01'),
+('2022CAHOBM200','Camisa_Hombre','1250.00','M','H','BLANCO','TOP','200','A01'),
+('2022CAHOBL200','Camisa_Hombre','1250.00','L','H','BLANCO','TOP','200','A01'),
+('2022PLHOBS500','Playera_Hombre','400.00','S','H','BLANCO','TOP','500','A01'),
+('2022PLHOBM500','Playera_Hombre','400.00','M','H','BLANCO','TOP','500','A01'),
+('2022PLHOBL500','Playera_Hombre','400.00','L','H','BLANCO','TOP','500','A01'),
+('2022CAHOAZS200','Camisa_Hombre','1250.00','S','H','AZUL','TOP','200','A01'),
+('2022CAHOAZM200','Camisa_Hombre','1250.00','M','H','AZUL','TOP','200','A01'),
+('2022CAHOAZL200','Camisa_Hombre','1250.00','L','H','AZUL','TOP','200','A01'),
+('2022PLHOAZS500','Playera_Hombre','400.00','S','H','AZUL','TOP','500','A01'),
+('2022PLHOAZM500','Playera_Hombre','400.00','M','H','AZUL','TOP','500','A01'),
+('2022PLHOAZL500','Playera_Hombre','400.00','L','H','AZUL','TOP','500','A01'),
+('2022BLMUBS500','Blusa_Mujer','950.00','S','H','BLANCO','TOP','500','A01'),
+('2022BLMUBM500','Blusa_Mujer','950.00','M','H','BLANCO','TOP','500','A01'),
+('2022BLMUBL500','Blusa_Mujer','950.00','L','H','BLANCO','TOP','500','A01'),
+('2022PAMUNS300','Pantalon_Mujer','799.00','S','M','NEGRO','BOT','300','A02'),
+('2022PAMUNM300','Pantalon_Mujer','799.00','M','M','NEGRO','BOT','300','A02'),
+('2022PAMUNL300','Pantalon_Mujer','799.00','L','M','NEGRO','BOT','300','A02'),
+('2022PAHONS300','Pantalon_Hombre','799.00','S','H','NEGRO','BOT','300','A02'),
+('2022PAHONM300','Pantalon_Hombre','799.00','M','H','NEGRO','BOT','300','A02'),
+('2022PAHONL300','Pantalon_Hombre','799.00','L','H','NEGRO','BOT','300','A02'),
+('2022CIMOS250','Cinturon_Mujer','350.00','S','M','NEGRO','ACC','250','A02'),
+('2022CIHOS250','Cinturon_Hombre','400.00','S','H','NEGRO','ACC','250','A02'),
+('2022CAMUACC500','Cartera_Mujer','350.00',NULL,'M','NEGRO','ACC','500','A02'),
+('2022CAHOACC500','Cartera_Hombre','350.00',NULL,'H','NEGRO','ACC','500','A02'),
+('2022PUMUORO250','Pulcera_Mujer','720.00',NULL,'M','ORO','ACC','250','A02');
+
+INSERT INTO 
+Almacen(ID_Almacen, Direccion, Telefono, Zona_distribucion, Disponibilidad, Capacidad)
+VALUES
+('A01','123 Calle 42, Nucalpan, Edo Mex 65454','443-245-8658','CentroA','2000','10000'),
+('A02','1748 Calle Irrigacion, Naucalpan, Edo Mex 65345','784-543-7584','CentroB','100','5000'),
+('A03','64 Calle Obregon, Monterrey, Nuevo Leon 647832','223-455-8732','NorEste','10','1000'),
+('A04','785 Calle Juarez, Tijuana, Baja California 98490','646-627-7854','NorOeste','0','5000'),
+('A05','645 Calle 42, Nucalpan, Oaxaca, Oaxaca 65454','152-743-0988','Sur','2000','8000'),
+('A06','124 Calle Carranza, Veracruz, Veracruz 1374','173-245-8658','Este','50','2000'),
+('A07','32 Calle Tequila, Guadalajara, Jalisco 98675','229-245-8658','Oeste','20','3000'),
+('A08','1748 Calle 50, Merida, Yucatan 74324','784-543-6748','Sur-Este','100','5000');
+
+INSERT INTO 
+Proveedores(ID_Proveedor, RFC, Direccion, Contacto, Tipo)
+VALUES
+('PROV01','PGTU6F8903HD','74 calle Lagos, Santa Fe,CDMX 65748','proveedor1@gmail.com','Telas'),
+('PROV02','UE63F7829SRI','637 calle Cervantes, Cancun, Quintana Roo 867511','proveedor2@gmail.com','Piel'),
+('PROV03','UN74784932RH','123 calle Sonora, Monterrey, Nuevo Leon 784234','proveedor3@gmail.com','Telas'),
+('PROV04','HF8594387FG6','583 calle lagos, CDMX 65748','proveedor4@gmail.com','Accesorios');
+
+INSERT INTO
+Pedidos_eliminados(ID_Eliminado,ID_Pedido,Fecha,Nota)
+VALUES
+('PEDELIM00001','2','2022-03-20 0:0:0', 'Pedido no ingresado a tiempo'),
+('PEDELIM00002','4','2022-08-12 0:0:0', 'Pedido en carrito supero tiempo de espera'),
+('PEDELIM00003','5','2022-02-24 0:0:0', 'Pedido no ingresado a tiempo'),
+('PEDELIM00004','19','2022-11-02 0:0:0', 'Pedido en carrito supero tiempo de espera'),
+('PEDELIM00005','20','2022-12-03 0:0:0', 'Pedido en carrito supero tiempo de espera'),
+('PEDELIM00006','40','2022-12-10 0:0:0', 'Pedido no ingresado a tiempo');
+
+INSERT INTO 
+Orden_Proveedores(ID_Orden, ID_Proveedor, Nombre_Articulo, Costo, Talla, Genero, Color, Tipo, Cantidad)
+VALUES
+
+('ORD00001', 'PROV01', 'Pantalon_Mujer', '250', 'S', 'M', 'NEGRO', 'BOT', '300'),
+('ORD00002', 'PROV01', 'Pantalon_Mujer', '250', 'M', 'M', 'NEGRO', 'BOT', '300'),
+('ORD00003', 'PROV01', 'Pantalon_Mujer', '250', 'L', 'M', 'NEGRO', 'BOT', '300'),
+('ORD00004', 'PROV01', 'Camisa_Hombre', '500', 'S', 'H', 'BLANCO', 'Tipo', '200'),
+('ORD00005', 'PROV01', 'Camisa_Hombre', '500', 'M', 'H', 'BLANCO', 'Tipo', '200'),
+('ORD00006', 'PROV01', 'Camisa_Hombre', '500', 'L', 'H', 'BLANCO', 'Tipo', '200'),
+('ORD00007', 'PROV03', 'Blusa_Mujer', '200', 'S', 'M', 'BLANCO', 'Tipo', '500'),
+('ORD00008', 'PROV03', 'Blusa_Mujer', '200', 'M', 'M', 'BLANCO', 'Tipo', '500'),
+('ORD00009', 'PROV03', 'Blusa_Mujer', '200', 'L', 'M', 'BLANCO', 'Tipo', '500'),
+('ORD00010', 'PROV03', 'Pantalon_Hombre', '300', 'S', 'H', 'NEGRO', 'BOT', '300'),
+('ORD00011', 'PROV03', 'Pantalon_Hombre', '300', 'M', 'H', 'NEGRO', 'BOT', '300'),
+('ORD00012', 'PROV03', 'Pantalon_Hombre', '300', 'L', 'H', 'NEGRO', 'BOT', '300'),
+('ORD00013', 'PROV02', 'Cinturon_Mujer', '120', 'U', 'M', 'NEGRO', 'ACC', '250'),
+('ORD00014', 'PROV02', 'Cinturon_Hombre', '120', 'U', 'H', 'NEGRO', 'ACC', '250'),
+('ORD00015', 'PROV02', 'Cartera_Hombre', '100', NULL, 'H', 'NEGRO', 'ACC', '500'),
+('ORD00016', 'PROV02', 'Cartera_Mujer', '100', NULL, 'M', 'NEGRO', 'ACC', '500'),
+('ORD00017', 'PROV04', 'Pulcera_Mujer', '250', NULL, 'M', 'ORO', 'ACC', '250'),
+('ORD00018', 'PROV03', 'Playera_Hombre', '200', 'S', 'H', 'BLANCO', 'TOP', '500'),
+('ORD00019', 'PROV03', 'Playera_Hombre', '200', 'M', 'H', 'BLANCO', 'TOP', '500'),
+('ORD00020', 'PROV03', 'Playera_Hombre', '200', 'L', 'H', 'BLANCO', 'TOP', '500'),
+('ORD00021', 'PROV03', 'Playera_Hombre', '200', 'S', 'H', 'AZUL', 'TOP', '500'),
+('ORD00022', 'PROV03', 'Playera_Hombre', '200', 'M', 'H', 'AZUL', 'TOP', '500'),
+('ORD00023', 'PROV03', 'Playera_Hombre', '200', 'L', 'H', 'AZUL', 'TOP', '500'),
+('ORD00024', 'PROV03', 'Blusa_Mujer', '150', 'S', 'M', 'ROJO', 'TOP', '200'),
+('ORD00025', 'PROV03', 'Blusa_Mujer', '150', 'M', 'M', 'ROJO', 'TOP', '200'),
+('ORD00026', 'PROV03', 'Blusa_Mujer', '150', 'L', 'M', 'ROJO', 'TOP', '200'),
+('ORD00027', 'PROV02', 'Bolsa_Mujer', '1000', NULL, 'M', 'NEGRO', 'ACC', '150'),
+('ORD00028', 'PROV01', 'Playera_Hombre', '200', 'XL', 'H', 'BLANCO', 'TOP', '100');
+
+INSERT INTO
+Orden_cancelada(ID_Cancelacion, ID_Orden, ID_Proveedor,Fecha_cancelacion)
+VALUES
+('ORDCAN00001', 'ORD00024', 'PROV03', '2022-03-01 0:0:0'),
+('ORDCAN00002', 'ORD00025', 'PROV03', '2022-04-30 0:0:0'),
+('ORDCAN00003', 'ORD00026', 'PROV03', '2022-04-30 0:0:0'),
+('ORDCAN00004', 'ORD00027', 'PROV02', '2022-04-30 0:0:0'),
+('ORDCAN00005', 'ORD00028', 'PROV01', '2022-06-15 0:0:0');
+
+INSERT INTO
+Empleados(ID_Empleado, Nombre, Apellido, Edad, Puesto, Usuario, Descuento, Telefono)
+VALUES
+('JP001','Juan','Perez','45','Gerente',NULL,'15','123-235-2345'),
+('MH011','Maria','Hernandez','30','Gerente','MH011','15','234-235-3824'),
+('JJ021','Jose','Javier','25','Gerente',NULL,'15','123-235-2345'),
+('PS843','Paloma','Sanchez','21','Especialista',NULL,'5','123-543-2345'),
+('AH678','Angel','Hanz','20','Especialista','AH678','5','234-235-4739'),
+('IH012','Isaias','Hidalgo','56','Vendedor','IH012','10','123-235-5433'),
+('AS020','Alfredo','Sanchez','42','Director',NULL,'20','123-453-2345'),
+('JG281','Josefina','Gonzalez','43','Promotor',NULL,'5','123-567-5743'),
+('SV732','Sofia','Velazquez','45','Vendedor','SV732','10','123-049-0932'),
+('CG521','Carolina','Garcia','48','Gerente',NULL,'15','123-742-2345'),
+('ML092','Manuel','Larson','35','Vendedor','ML092','10','123-739-8493'),
+('JZ001','Jose','Zavala','38','Gerente General',NULL,'40','123-567-3745'),
+('SC112','Sebastian','Castro','32','Secretario',NULL,'10','123-543-9283'),
+('SV930','Santiago','Velez','27','Representante Legal',NULL,'40','123-358-9482'),
+('JZ342','Jesus','Zuniga','23','Vendedor',NULL,'10','456-573-9853'),
+('FS032','Francisco','Suarez','27','Vendedor',NULL,'10','533-543-1235'),
+('AR029','Alexa','Roman','29','Promotor',NULL,'5','543-839-9482'),
+('CV921','Christian','Vazquez','32','Gerente',NULL,'15','124-245-8594'),
+('VR321','Valeria','Romano','33','Asociado',NULL,'10','246-765-0283'),
+('DR828','Daniela','Ruiz','37','Asociado',NULL,'10','563-345-9023'),
+('AR626','Ana','Rivera','41','Secretario',NULL,'10','849-221-3595'),
+('PI483','Paola','Ibarrola','40','Gerente',NULL,'15','840-840-0483'),
+('GS957','Gabriela','Sarfati','45','Director',NULL,'20','583-852-2740'),
+('AD642','Alan','Dario','29','Representante',NULL,'25','123-463-2840');
+
+INSERT INTO
+Pedidos_cancelados(ID_Cancelado, ID_Pedido, Usuario, Fecha_Cancelacion, Nota, Devolucion)
+VALUE
+('PEDCAN00001', '3', 'SofOrt', '2022-05-05 0:0:0', 'Pedire en otra ocasion', '1900.00'),
+('PEDCAN00002', '45', 'IH012', '2022-09-19 0:0:0', 'Ya no requiero mas la camisa', '1200.00'),
+('PEDCAN00003', '48', 'JJSuarez', '2022-10-23 0:0:0', 'Encontre otro mejor', '350.00'),
+('PEDCAN00009', '50', 'AH678', '2020-11-15 0:0:0', 'No lo necesito mas', '2880.00');
+
+INSERT INTO
+Pedidos_devueltos(ID_Retorno, ID_Pedido, Usuario, Fecha_Devolucion, Nota, ID_Almacen)
+VALUES
+('PEDRET00001', '15', 'MP002', '2022-02-18 0:0:0', 'Me arrepenti de pedirlo', 'A01'),
+('PEDRET00002', '18', 'ML092', '2022-03-03 0:0:0', 'No lo requiero mas', 'A03'),
+('PEDRET00003', '24', '212Rodrigo', '2022-04-26 0:0:0', 'Me equivoque de articulo', 'A05'),
+('PEDRET00004', '37', 'JuMOrales01', '2022-08-17 0:0:0', 'Ya consegui otra camisa', 'A05'),
+('PEDRET00006', '39', 'IH012', '2020-08-25 0:0:0', 'No estoy seguro de la talla', 'A06'),
+('PEDRET00007', '46', 'JJSuarez', '2022-09-10 0:0:0', 'Me quedo mal, pedire otra talla', 'A04');
 
 
 -- PRUEBAS BASE DE CONSULTA --
