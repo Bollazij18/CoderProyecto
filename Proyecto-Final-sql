@@ -215,3 +215,145 @@ FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(ID_Pedido)
 -- Solo algunas tablas de las 15 tablas tienen regstro inicial de datos ya que el resto de las tablas son vistas o tablas con modificacioens adicionales -- 
 
 
+
+
+-- PRUEBAS BASE DE CONSULTA --
+SELECT * FROM CLIENTES;
+SELECT * FROM TEST_01;
+SELECT * FROM PEDIDOS;
+SELECT * FROM PEDIDOS p LEFT JOIN CLIENTES c ON p.usuario=c.usuario;
+
+
+-- CREACION DE VISTAS --
+
+CREATE VIEW ROPA_CABALLERO_DISPONIBLE AS 
+SELECT SKU, Nombre_Articulo, Precio, Talla, Genero, Color, Tipo, Almacen 
+FROM Productos 
+WHERE Genero = 'H' AND Disponibilidad NOT IN ('0',NULL);
+
+SELECT * 
+FROM e_commerce.ropa_caballero_disponible;
+
+CREATE VIEW ROPA_DAMA_DISPONIBLE AS 
+SELECT SKU, Nombre_Articulo, Precio, Talla, Genero, Color, Tipo, Almacen 
+FROM Productos 
+WHERE Genero = 'M' AND Disponibilidad NOT IN ('0',NULL);
+
+SELECT * 
+FROM e_commerce.ropa_dama_disponible;
+
+CREATE VIEW ULIMOS_PEDIDOS AS 
+SELECT * 
+FROM Pedidos 
+WHERE ID_Pedido IS NOT NULL 
+ORDER BY Fecha DESC;
+
+SELECT * 
+FROM e_commerce.ultimos_pedidos;
+
+CREATE VIEW ALMACEN_LLENO AS 
+SELECT * 
+FROM Almacen 
+WHERE Capacidad = '0';
+
+SELECT * 
+FROM e_commerce.almacen_lleno;
+
+CREATE VIEW USUARIOS_ACTIVOS AS 
+SELECT DISTINCT C.Usuario, C.Nombre, C.Apellido, COUNT(P.ID_Pedido) AS Pedidos_Usuario 
+FROM Clientes C JOIN Pedidos P ON C.Usuario = P.Usuario 
+WHERE P.ID_Pedido IS NOT NULL 
+GROUP BY 1 ORDER BY Pedidos_Usuario DESC LIMIT 10;
+
+SELECT * 
+FROM e_commerce.usuarios_activos;
+
+-- CREACION DE FUNCIONES --
+-- Esta funcion calcula el tiempo que ha pasado en dias, -- -- sera uilizado para regresar el tiempo ocurrido en dias de las compras realizadas--
+
+DELIMITER //
+
+CREATE FUNCTION no_de_dias (Fecha1 DATE) RETURNS int DETERMINISTIC
+BEGIN DECLARE Fecha2 DATE; Select current_date()into Fecha2; RETURN (Fecha2)-(Fecha1);
+
+END
+
+; //
+
+DELIMITER ;
+
+-- Esta funcion determina si los usuarios son mayores de edad o no --
+
+DELIMITER //
+
+CREATE FUNCTION Mayor_Edad (Edad INTEGER) RETURNS VarChar(4) DETERMINISTIC
+
+BEGIN IF Edad >= 21 THEN RETURN 'YES'; ELSE RETURN 'NO'; END IF;
+
+END
+
+; //
+
+DELIMITER ;
+
+-- CREACION DE PROCESO 'SP' -- 
+
+DELIMITER // 
+CREATE PROCEDURE Order_Campo (IN campo VarChar(30), IN orden INTEGER)
+
+BEGIN IF @order = 1 THEN SELECT * 
+FROM Pedidos 
+ORDER BY @campo DESC;
+ELSE 
+SELECT * 
+FROM Pedidos 
+ORDER BY @campo ASC;
+END IF;
+END;
+
+//
+
+-- TRANSACCIONES Y COMANDOS TLC--
+-- Pruebas_Varias-- 
+INSERT INTO Pruebas_Varias VALUES ("1A", "Primer prueba de la tabla", CURDATE(), NOW(), "INS"); 
+COMMIT;
+
+INSERT INTO Pruebas_Varias VALUES ("2A", "Segunda prueba de la tabla", CURDATE(), NOW(), "INS"); 
+COMMIT;
+
+UPDATE Pruebas_Varias SET Test_Text = 'Primera prueba actualizada' 
+WHERE ID_Test = '1A'; 
+SAVEPOINT A;
+
+UPDATE Pruebas_Varias SET Test_Text = 'Primer prueba de tabla' 
+WHERE ID_Test = '2A'; 
+SAVEPOINT B;
+
+ROLLBACK to A; 
+COMMIT;
+
+-- Insertando 8 nuevos registros en la tabla de pedidos con un savepoint a los 4 registros y otro a los 8 registros--
+INSERT INTO Pedidos VALUES ('51','Juan32','2000.00','2022-10-20 0:0:0','74 Calle Boston, Ciudad de Mexico 78323','Pantalon_Hombre','H','2');
+
+INSERT INTO Pedidos VALUES ('52','SofOrt","3800.00','2022-6-10 0:0:0','172 calle Lago, Queretaro,Queretaro 61632','Blusa_Mujer','M','4');
+
+INSERT INTO Pedidos VALUES ('53','MP002','1598.00','2022-04-10 0:0:0','222 Calle Juarez, Saltillo 12310','Pantalon_Mujer','S','2');
+
+INSERT INTO Pedidos VALUES ('54','JJSuarez','1600.00','2021-02-18 0:0:0','254 Calle Espino, Chapultepec, CDMX 53624','Playera_Hombre','L','4');
+
+SAVEPOINT A;
+
+INSERT INTO Pedidos VALUES ('55','JJSuarez','350.00','2022-02-18 0:0:0','254 Calle Espino, Chapultepec, CDMX 53624','Cartera_Hombre',NULL,'1');
+
+INSERT INTO Pedidos VALUES ('56','JP29','5000.00','2021-12-1 0:0:0','12 Calle Lago, Interlomas, CDMX 77292','Camisa_Hombre','M','4');
+
+INSERT INTO Pedidos VALUES ('57','SofOrt','1900.00','2022-04-05 0:0:0','172 calle Lago, Queretaro,Queretaro 61632','Blusa_Mujer','S','2');
+
+INSERT INTO Pedidos VALUES ('58','SofOrt','799.00','2022-02-18 0:0:0','172 calle Lago, Queretaro,Queretaro 61632','Pantalon_Mujer','S','1');
+
+SAVEPOINT B;
+
+ROLLBACK TO A; 
+COMMIT;
+
+--FIN--
